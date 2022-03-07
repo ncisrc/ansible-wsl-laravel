@@ -1,0 +1,32 @@
+- name : DOCKER - Install essentials package
+  become: true
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+    - software-properties-common
+
+- name : DOCKER - Add GPG Docker Key
+  become: true
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+- name: DOCKER - Add official repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_lsb.codename}} stable
+    state: present
+
+- name : DOCKER - Install Docker
+  become: true
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io

@@ -1,0 +1,26 @@
+- name: PHP - Add Ondrej PPA
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: PHP - Install PHP 8.0 CLI
+  apt:
+    state: latest
+    pkg:
+    - openssl
+    - php8.1-cli
+    - php8.1-curl
+    - php8.1-mbstring
+    - php8.1-mysql
+    - php8.1-xml
+    - php8.1-zip
+    - php8.1-xdebug
+    - php8.1-soap
+    - php8.1-redis
+    - php8.1-pgsql
+    - php8.1-mongodb
+    - php8.1-mcrypt
+    - php8.1-ldap
+    - php8.1-imagick
+    - php8.1-gd
+    - php-json

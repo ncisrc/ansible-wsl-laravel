@@ -1,0 +1,6 @@
+- name: LARAVEL - Make an Artisan alias
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: alias artisan="php artisan"
+    owner: "{{ansible_env.SUDO_USER}}"

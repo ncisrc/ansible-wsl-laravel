@@ -30,3 +30,10 @@
     - docker-ce
     - docker-ce-cli
     - containerd.io
+
+- name: DOCKER - Add user to Docker Group
+  become: yes
+  user:
+    name: "{{ansible_env.SUDO_USER}}"
+    groups: docker
+    append: yes

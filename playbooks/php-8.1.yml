@@ -3,7 +3,7 @@
     repo: ppa:ondrej/php
     state: present
 
-- name: PHP - Install PHP 8.0 CLI
+- name: PHP - Install PHP 8.1 CLI
   apt:
     state: latest
     pkg:

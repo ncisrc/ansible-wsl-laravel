@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: playbooks/zsh.yml
+    - include_tasks: playbooks/oh-my-zsh.yml
+    - include_tasks: playbooks/git-flow.yml
+    - include_tasks: playbooks/docker.yml
+    - include_tasks: playbooks/php-8.1.yml
+    - include_tasks: playbooks/nodejs-14.yml
+    - include_tasks: playbooks/laravel-aliases.yml

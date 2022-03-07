@@ -1,0 +1,11 @@
+- name: GIT - Install GIT-FLOW worflow
+  apt:
+    name: git-flow
+    state: latest
+
+- name: GIT - Make a 'git-deploy' alias
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: alias git-deploy="git checkout master && git push origin master && git push --tags && git checkout develop"
+    owner: "{{ansible_env.SUDO_USER}}"

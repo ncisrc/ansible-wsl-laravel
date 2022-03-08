@@ -24,3 +24,16 @@
     - php8.1-imagick
     - php8.1-gd
     - php-json
+
+- name: PHP - Download Composer
+  script: scripts/download_composer.sh
+
+- name: PHP - Install composer Globally
+  become: true
+  command: mv composer.phar /usr/local/bin/composer
+
+- name: PHP - Set permissions on Composer
+  become: true
+  file:
+    path: /usr/local/bin/composer
+    mode: "a+x"

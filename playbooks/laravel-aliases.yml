@@ -2,5 +2,12 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: alias artisan="php artisan"
+    line: alias artisan='php artisan'
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: LARAVEL - Make an Artisan alias
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
     owner: "{{ansible_env.SUDO_USER}}"

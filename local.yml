@@ -10,3 +10,4 @@
     - include_tasks: playbooks/php-8.1.yml
     - include_tasks: playbooks/nodejs-14.yml
     - include_tasks: playbooks/laravel-aliases.yml
+    - include_tasks: playbooks/p4merge.yml

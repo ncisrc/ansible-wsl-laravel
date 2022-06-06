@@ -19,7 +19,7 @@ if [ ! -f ~/.gitconfig ]; then
     echo "-------------------------------------------------------------------------------"
     echo "GITCONFIG"
     echo "Retrieving lalmat's .gitconfig :"
-    curl https://gist.githubusercontent.com/lalmat/2f765c03fb4f3556021b26b28baf8d9f/raw/1d07a35b91a29019de69a731510a622815f3d5bb/gistfile1.txt > ~/.gitconfig
+    curl https://gist.githubusercontent.com/lalmat/f1c392ae91d1d4361d4c2b2fc69f6515/raw/bf08369bba9f99b62cd75b37f81eb255b39483e9/.gitconfig > ~/.gitconfig
 
     echo "Configuring .gitconfig :"
     read -p "Enter your Fullname : " USER_FULLNAME

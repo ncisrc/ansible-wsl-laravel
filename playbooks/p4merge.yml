@@ -1,0 +1,6 @@
+- name: P4Merge - Adding path
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: export PATH="$PATH:/mnt/c/Program Files/Perforce"
+    owner: "{{ansible_env.SUDO_USER}}"

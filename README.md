@@ -5,9 +5,11 @@
   - EN : https://docs.microsoft.com/en-us/windows/wsl/install
   - FR : https://docs.microsoft.com/fr-fr/windows/wsl/install
 
-- Docker for Windows :
+- Docker for Windows (option) :
   - https://docs.docker.com/desktop/windows/install/
-  > It's really important to install Docker for Windows. It allows you to connect Windows native ports / services from Docker inside the WSL Layer.
+
+  > Why it's an option : _It's not really important to install Docker for Windows unless you have to deal with native windows application listening on specific ports on you computer._
+  **But if you install Docker for Windows be sure to enable the WSL2 option !**
 
 ## Installation
 From a Ubuntu WSL Shell

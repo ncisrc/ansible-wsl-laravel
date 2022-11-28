@@ -32,7 +32,7 @@ fi
 echo "-------------------------------------------------------------------------------"
 echo "Installing Ansible"
 sudo apt install software-properties-common
-sudo apt install ansible --yes --install-suggests
+sudo apt install ansible --yes
 
 echo "-------------------------------------------------------------------------------"
 echo "Ansible ready, just start your ansible pull"

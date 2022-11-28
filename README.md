@@ -15,7 +15,7 @@
 From a Ubuntu WSL Shell
 
 ```bash
-git clone git@git-cloud.nci.fr:mat/ansible-wsl-installer.git
+git clone https://github.com/ncisrc/ansible-wsl-laravel.git
 cd ansible-wsl-installer
 bash install.sh
 # You will be asked to provide your GIT identity
@@ -32,7 +32,7 @@ sudo ansible-playbook local.yml
 - Git-Flow + alias `git-deploy`
 - Laravel `artisan` alias instead of `php artisan`
 - Laravel `sail` alias.
-- NodeJS v14
+- NodeJS v18
 - PHP 8.1
 - Integration of `p4merge`.
 

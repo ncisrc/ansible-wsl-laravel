@@ -1,5 +1,5 @@
 - name: PHP - Add Ondrej PPA
-  ansible.builtin.apt_repository:
+  apt_repository:
     repo: ppa:ondrej/php
     state: present
 
@@ -36,4 +36,15 @@
   become: true
   file:
     path: /usr/local/bin/composer
+    mode: "a+x"
+
+- name: PHP - Download phpMD.phar
+  ansible.builtin.command:
+    cmd: wget -O /home/{{ansible_env.SUDO_USER}}/phpmd.phar -c https://phpmd.org/static/latest/phpmd.phar
+    creates: /home/{{ansible_env.SUDO_USER}}/phpmd.phar
+
+- name: PHP - Set persmissions on phpMD.phar
+  become: true
+  file:
+    path: /home/{{ansible_env.SUDO_USER}}/phpmd.phar
     mode: "a+x"

@@ -31,7 +31,7 @@ fi
 
 echo "-------------------------------------------------------------------------------"
 echo "Installing Ansible"
-sudo apt install software-properties-common
+sudo apt install software-properties-common --yes
 sudo apt install ansible --yes
 
 echo "-------------------------------------------------------------------------------"

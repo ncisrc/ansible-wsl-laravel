@@ -1,19 +1,23 @@
-- name: NODEJS - Add GPG Nodesource GPG Key
+- name: NVM - Install NVM
   become: true
-  shell: curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | sudo -E bash -
 
-- name: NODEJS - Install package
-  become: true
-  apt:
-    name: nodejs
-    state: latest
-    update_cache: yes
+- name: NVM - Patch .zshrc
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NODEJS - Install NVM
+  become_user: "{{ansible_env.SUDO_USER}}"
+  shell: nvm install v18
 
 - name: NPM - Check if local global path installed
   become_user: "{{ansible_env.SUDO_USER}}"
   stat:
     path: /home/{{ansible_env.SUDO_USER}}/.npm-packages
-  register: npm_local_packages
+    register: npm_local_packages
 
 - name: NPM - Local global packages directory
   become_user: "{{ansible_env.SUDO_USER}}"
@@ -28,19 +32,5 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: NPM_PACKAGES="${HOME}/.npm-packages"
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NPM - Add NPM_PACKAGE to .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export PATH="$PATH:$NPM_PACKAGES/bin"
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NPM - Add NPM MANPATH to .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+    line: NPM_PACKAGES="${HOME}/.npm-packages"\nexport PATH="$PATH:$NPM_PACKAGES/bin"\nexport MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
     owner: "{{ansible_env.SUDO_USER}}"

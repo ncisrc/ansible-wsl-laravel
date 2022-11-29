@@ -61,8 +61,9 @@
 
 - name: NPM - Define ~/.npmrc file
   become_user: "{{ansible_env.SUDO_USER}}"
-  create: true
   lineinfile:
+    create: true
+    present: true
     dest: "/home/{{ansible_env.SUDO_USER}}/.npmrc"
     line: 'prefix=~/.npm-packages'
     owner: "{{ansible_env.SUDO_USER}}"

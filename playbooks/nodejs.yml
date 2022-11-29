@@ -2,18 +2,26 @@
   become: true
   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | sudo -E bash -
 
+
 - name: NVM - Define NVM_DIR in .zshrc
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"'
+    line: export NVM_DIR="$HOME/.nvm"
     owner: "{{ansible_env.SUDO_USER}}"
 
-- name: NVM - Define nvm.sh in .zshrc
+- name: NVM - Define load NVM in .zshrc
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
     line: '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NVM - Define BASH COMPLETION in .zshrc
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
     owner: "{{ansible_env.SUDO_USER}}"
 
 - name: NPM - Check if local global path installed
@@ -54,4 +62,4 @@
 
 - name: NODEJS - Install Node 18 using NVM
   become_user: "{{ansible_env.SUDO_USER}}"
-  shell: nvm install v18
+  shell: source /home/{{ansible_env.SUDO_USER}}/.zshrc && nvm install v18

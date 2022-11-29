@@ -1,33 +1,23 @@
 - name: NVM - Install NVM
-  become_user: "{{ansible_env.SUDO_USER}}"
-  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+  become: true
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | sudo -E bash -
 
-- name: NVM - Define NVM_DIR in .zshrc
+- name: NVM - Patch .zshrc
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export NVM_DIR="$HOME/.nvm"
+    line: export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     owner: "{{ansible_env.SUDO_USER}}"
 
-- name: NVM - Define load NVM in .zshrc
+- name: NODEJS - Install NVM
   become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NVM - Define BASH COMPLETION in .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'
-    owner: "{{ansible_env.SUDO_USER}}"
+  shell: nvm install v18
 
 - name: NPM - Check if local global path installed
   become_user: "{{ansible_env.SUDO_USER}}"
   stat:
     path: /home/{{ansible_env.SUDO_USER}}/.npm-packages
-  register: npm_local_packages
+    register: npm_local_packages
 
 - name: NPM - Local global packages directory
   become_user: "{{ansible_env.SUDO_USER}}"
@@ -42,36 +32,5 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: NPM_PACKAGES="${HOME}/.npm-packages"
+    line: NPM_PACKAGES="${HOME}/.npm-packages"\nexport PATH="$PATH:$NPM_PACKAGES/bin"\nexport MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
     owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NPM - Add NPM_PACKAGE to .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export PATH="$PATH:$NPM_PACKAGES/bin"
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NPM - Add NPM MANPATH to .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NPM - Define ~/.npmrc file
-  become_user: "{{ansible_env.SUDO_USER}}"
-  lineinfile:
-    create: true
-    state: present
-    dest: "/home/{{ansible_env.SUDO_USER}}/.npmrc"
-    line: 'prefix=~/.npm-packages'
-    owner: "{{ansible_env.SUDO_USER}}"
-
-- name: NODEJS - Install Node 18 using NVM
-  become_user: "{{ansible_env.SUDO_USER}}"
-  shell: /bin/bash -c "source /home/{{ansible_env.SUDO_USER}}/.zshrc && nvm install --lts --no-progress --latest-npm"
-
-- name: NODEJS - Install YARN using npm
-  become_user: "{{ansible_env.SUDO_USER}}"
-  shell: /bin/bash -c "source /home/{{ansible_env.SUDO_USER}}/.zshrc && npm install -g yarn"

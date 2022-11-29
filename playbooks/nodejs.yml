@@ -16,10 +16,6 @@
     line: '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
     owner: "{{ansible_env.SUDO_USER}}"
 
-- name: NODEJS - Install NVM
-  become_user: "{{ansible_env.SUDO_USER}}"
-  shell: nvm install v18
-
 - name: NPM - Check if local global path installed
   become_user: "{{ansible_env.SUDO_USER}}"
   stat:
@@ -55,3 +51,7 @@
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
     line: export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
     owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NODEJS - Install Node 18 using NVM
+  become_user: "{{ansible_env.SUDO_USER}}"
+  shell: nvm install v18

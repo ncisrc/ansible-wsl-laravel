@@ -20,7 +20,7 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   stat:
     path: /home/{{ansible_env.SUDO_USER}}/.npm-packages
-    register: npm_local_packages
+  register: npm_local_packages
 
 - name: NPM - Local global packages directory
   become_user: "{{ansible_env.SUDO_USER}}"

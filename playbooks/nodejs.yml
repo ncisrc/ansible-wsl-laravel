@@ -63,7 +63,7 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     create: true
-    present: true
+    state: present
     dest: "/home/{{ansible_env.SUDO_USER}}/.npmrc"
     line: 'prefix=~/.npm-packages'
     owner: "{{ansible_env.SUDO_USER}}"

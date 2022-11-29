@@ -70,3 +70,7 @@
 - name: NODEJS - Install Node 18 using NVM
   become_user: "{{ansible_env.SUDO_USER}}"
   shell: /bin/bash -c "source /home/{{ansible_env.SUDO_USER}}/.zshrc && nvm install --lts --no-progress --latest-npm"
+
+- name: NODEJS - Install YARN using npm
+  become_user: "{{ansible_env.SUDO_USER}}"
+  shell: /bin/bash -c "source /home/{{ansible_env.SUDO_USER}}/.zshrc && npm install -g yarn"

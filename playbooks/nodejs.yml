@@ -34,14 +34,6 @@
   when: not npm_local_packages.stat.exists
   shell: mkdir "/home/{{ansible_env.SUDO_USER}}/.npm-packages"
 
-- name: NVM - Define BASH COMPLETION in .zshrc
-  become_user: "{{ansible_env.SUDO_USER}}"
-  when: not npm_local_packages.stat.exists
-  lineinfile:
-    dest: "/home/{{ansible_env.SUDO_USER}}/.npmrc"
-    line: 'prefix=~/.npm-packages'
-    owner: "{{ansible_env.SUDO_USER}}"
-
 - name: NPM - Set global packages directory
   become_user: "{{ansible_env.SUDO_USER}}"
   shell: npm config set prefix "/home/{{ansible_env.SUDO_USER}}/.npm-packages"
@@ -65,6 +57,14 @@
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
     line: export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NPM - Define ~/.npmrc file
+  become_user: "{{ansible_env.SUDO_USER}}"
+  create: true
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.npmrc"
+    line: 'prefix=~/.npm-packages'
     owner: "{{ansible_env.SUDO_USER}}"
 
 - name: NODEJS - Install Node 18 using NVM

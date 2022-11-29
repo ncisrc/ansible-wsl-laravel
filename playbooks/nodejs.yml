@@ -2,16 +2,23 @@
   become: true
   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | sudo -E bash -
 
-- name: NVM - Patch .zshrc
+- name: NVM - Define NVM_DIR in .zshrc
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    line: export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NVM - Define nvm.sh in .zshrc
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm"
     owner: "{{ansible_env.SUDO_USER}}"
 
 - name: NODEJS - Install NVM
   become_user: "{{ansible_env.SUDO_USER}}"
-  shell: nvm install v18
+  shell: source /home/{{ansible_env.SUDO_USER}}/.zshrc && nvm install v18
 
 - name: NPM - Check if local global path installed
   become_user: "{{ansible_env.SUDO_USER}}"
@@ -32,5 +39,19 @@
   become_user: "{{ansible_env.SUDO_USER}}"
   lineinfile:
     dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
-    line: NPM_PACKAGES="${HOME}/.npm-packages"\nexport PATH="$PATH:$NPM_PACKAGES/bin"\nexport MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+    line: NPM_PACKAGES="${HOME}/.npm-packages"
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NPM - Add NPM_PACKAGE to .zshrc
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: export PATH="$PATH:$NPM_PACKAGES/bin"
+    owner: "{{ansible_env.SUDO_USER}}"
+
+- name: NPM - Add NPM MANPATH to .zshrc
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
     owner: "{{ansible_env.SUDO_USER}}"

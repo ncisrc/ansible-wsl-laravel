@@ -1,7 +1,6 @@
 - name: NVM - Install NVM
-  become: true
-  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | sudo -E bash -
-
+  become_user: "{{ansible_env.SUDO_USER}}"
+  shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 
 - name: NVM - Define NVM_DIR in .zshrc
   become_user: "{{ansible_env.SUDO_USER}}"
@@ -62,4 +61,4 @@
 
 - name: NODEJS - Install Node 18 using NVM
   become_user: "{{ansible_env.SUDO_USER}}"
-  shell: source /home/{{ansible_env.SUDO_USER}}/.zshrc && nvm install v18
+  shell: . /home/username/.zshrc && && nvm install v18

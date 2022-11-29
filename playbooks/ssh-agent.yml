@@ -1,0 +1,7 @@
+
+- name: Configure SSH-AGENT to remember ssh key
+  become_user: "{{ansible_env.SUDO_USER}}"
+  lineinfile:
+    dest: "/home/{{ansible_env.SUDO_USER}}/.zshrc"
+    line: eval $(ssh-agent)
+    owner: "{{ansible_env.SUDO_USER}}"

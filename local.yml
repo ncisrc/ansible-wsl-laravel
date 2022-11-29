@@ -5,6 +5,7 @@
   tasks:
     - include_tasks: playbooks/zsh.yml
     - include_tasks: playbooks/oh-my-zsh.yml
+    - include_tasks: playbooks/ssh-agent.yml
     - include_tasks: playbooks/git-flow.yml
     - include_tasks: playbooks/docker.yml
     - include_tasks: playbooks/php.yml

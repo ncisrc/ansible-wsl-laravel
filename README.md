@@ -1,6 +1,9 @@
-# Laravel Sail devlopment environnement for Windows WSL 2 & VS Code
+# NodeJS & Laravel Sail development environnement for Windows WSL 2 & VS Code
 
 ## What do you need ?
+- Ansible Playbook
+  - `sudo apt install ansible`
+
 - A WSL2 already installed :
   - EN : https://docs.microsoft.com/en-us/windows/wsl/install
   - FR : https://docs.microsoft.com/fr-fr/windows/wsl/install
@@ -32,9 +35,30 @@ sudo ansible-playbook local.yml
 - Git-Flow + alias `git-deploy`
 - Laravel `artisan` alias instead of `php artisan`
 - Laravel `sail` alias.
-- NodeJS v18
-- PHP 8.1
+- NVM
+- PHP 8.2
 - Integration of `p4merge`.
+
+## Configuration of NodeJS:
+```bash
+nvm install node # Install latest version of NodeJS
+nvm install lts # Install latest LTS version of NodeJS
+nvm install v16.18 # Install specific version of NodeJS
+
+nvm use v16.18 # Set this version as default version
+```
+
+## Configuration of NodeJS version by project
+You can create a `.nvmrc` file at the root of your project with a specific node version for you project :
+```bash
+echo "v16.18" > .nvmrc
+```
+Then inside you project, you can use the defined version with this command :
+```bash
+nvm use
+```
+
+
 
 ## Notes :
 

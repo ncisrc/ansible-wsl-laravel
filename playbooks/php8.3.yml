@@ -1,0 +1,50 @@
+- name: PHP - Add Ondrej PPA
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: PHP - Install PHP 8.3 CLI
+  apt:
+    state: latest
+    pkg:
+    - openssl
+    - php8.3-cli
+    - php8.3-curl
+    - php8.3-mbstring
+    - php8.3-mysql
+    - php8.3-xml
+    - php8.3-zip
+    - php8.3-xdebug
+    - php8.3-soap
+    - php8.3-redis
+    - php8.3-pgsql
+    - php8.3-mongodb
+#    - php-mcrypt
+    - php8.3-ldap
+    - php8.3-imagick
+    - php8.3-gd
+    - php-json
+
+- name: PHP - Download Composer
+  script: scripts/download_composer.sh
+
+- name: PHP - Install composer Globally
+  become: true
+  command: mv composer.phar /usr/local/bin/composer
+
+- name: PHP - Set permissions on Composer
+  become: true
+  file:
+    path: /usr/local/bin/composer
+    mode: "a+x"
+
+- name: PHP - Download phpMD.phar
+  ansible.builtin.command:
+    cmd: wget -O /home/{{ansible_env.SUDO_USER}}/phpmd.phar -c https://phpmd.org/static/latest/phpmd.phar
+    creates: /home/{{ansible_env.SUDO_USER}}/phpmd.phar
+
+- name: PHP - Set persmissions on phpMD.phar
+  become: true
+  file:
+    path: /home/{{ansible_env.SUDO_USER}}/phpmd.phar
+    mode: "a+x"

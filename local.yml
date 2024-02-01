@@ -8,7 +8,7 @@
     - include_tasks: playbooks/ssh-agent.yml
     - include_tasks: playbooks/git-flow.yml
     - include_tasks: playbooks/docker.yml
-    - include_tasks: playbooks/php8.2.yml
+    - include_tasks: playbooks/php8.3.yml
     - include_tasks: playbooks/nvm.yml
     - include_tasks: playbooks/laravel-aliases.yml
     - include_tasks: playbooks/p4merge.yml

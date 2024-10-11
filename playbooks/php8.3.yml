@@ -24,6 +24,7 @@
     - php8.3-imagick
     - php8.3-gd
     - php-json
+    - php-bcmath
 
 - name: PHP - Download Composer
   script: scripts/download_composer.sh

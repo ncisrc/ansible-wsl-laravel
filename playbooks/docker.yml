@@ -28,9 +28,8 @@
     update_cache: yes
     pkg:
     - docker-ce
-    - docker-ce-cli
-    - containerd.io
-    - docker-compose
+    # - docker-ce-cli
+    # - docker-compose
 
 - name: DOCKER - Add user to Docker Group
   become: yes

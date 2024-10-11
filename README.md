@@ -1,5 +1,7 @@
 # NodeJS & Laravel Sail development environnement for Windows WSL 2 & VS Code
 
+> Tested against WSL UBUNTU 24.04
+
 ## What do you need ?
 - Ansible Playbook
   - `sudo apt install ansible`
@@ -35,43 +37,41 @@ sudo ansible-playbook local.yml
 - Git-Flow + alias `git-deploy`
 - Laravel `artisan` alias instead of `php artisan`
 - Laravel `sail` alias.
-- NVM
-- PHP 8.2
+- NVM 0.40.1
+- PHP 8.3
 - Integration of `p4merge`.
 
 ## Configuration of NodeJS:
 ```bash
-nvm install node # Install latest version of NodeJS
-nvm install lts # Install latest LTS version of NodeJS
-nvm install v16.18 # Install specific version of NodeJS
-
-nvm use v16.18 # Set this version as default version
+$ nvm install node # Install latest version of NodeJS
+$ nvm install --nlts # Install latest LTS version of NodeJS
+$ nvm install v16.18 # Install specific version of NodeJS
+$ nvm use v16.18 # Set this version as default version
 ```
 
 ## Configuration of NodeJS version by project
 You can create a `.nvmrc` file at the root of your project with a specific node version for you project :
 ```bash
-echo "v16.18" > .nvmrc
+$ echo "v16.18" > .nvmrc
 ```
 Then inside you project, you can use the defined version with this command :
 ```bash
-nvm use
+$ nvm use
 ```
-
-
 
 ## Notes :
 
-### About GIT Conflics :
+### About GIT Conflicts :
 
-The .gitconfig file is configured to use the `p4merge` tool. It's a free, must have, mergin tool.
+The .gitconfig file is configured to use the `p4merge` tool. It's a free, must have, merging tool.
 You can download it for free here : https://www.perforce.com/downloads/visual-merge-tool
 
-You ONLY have to install `p4merge` on Windows ;)
+You ONLY need to install `p4merge` on Windows ;)
 
-Then all you have to do is a `git mergetool` inside a WSL terminal to manage conflics and magic should happen.
+Then all you have to do is a `git mergetool` inside a WSL terminal to manage conflicts and all the magic should happen.
 
-### About Debug inside WSL using VS Code & Laravel Sail :
+
+### About Debug PHP inside WSL using VS Code & Laravel Sail :
 
 #### Make a `.vscode/launch.json` file inside you project and copy theses lines inside :
 ```json
@@ -97,7 +97,7 @@ Then all you have to do is a `git mergetool` inside a WSL terminal to manage con
 
 ```
 
-#### Then change the `XDEBUG_CONFIG` param inside your "docker-compose.yml" as follow
+#### Then change the `XDEBUG_CONFIG` param inside your `docker-compose.yml` as follow
 
 ```yaml
 ...
